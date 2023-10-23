@@ -1,0 +1,149 @@
+[
+    {
+        "name": "discordPinMsg",
+        "servicename": "Discord",
+        "func": "./discord/pinnedmsg.trigger",
+        "description": "get a trigger when a msg is pinned",
+        "toSend": [
+            {
+                "dropdown" : {
+                    "name": "ServerName",
+                    "object": ["name", "guildId"],
+                    "render": "name",
+                    "return": "guildId",
+                    "choices": []
+                }
+            }
+        ]
+    },
+    {
+        "name": "etherscanGas",
+        "servicename": "Etherscan",
+        "func": "./etherScan/etherscangas.trigger",
+        "description": "get a trigger when gas price is at a certain amount",
+        "toSend": [
+            {
+                "dropdown" : {
+                    "name": "Comparative Operator",
+                    "object": ["Operator", "value"],
+                    "render": "Operator",
+                    "return": "value",
+                    "choices": [
+                        {"Operator" : ">", "value": ">"},
+                        {"Operator" : "<", "value": "<"},
+                        {"Operator" : "=", "value": "="}
+                    ]
+                }
+            },
+            {
+                "dropdown" : {
+                    "name": "Polling Interval",
+                    "object": ["Polling", "time"],
+                    "render": "Polling",
+                    "return": "time",
+                    "choices": [
+                        {"Polling" : "3 minute", "time": 3},
+                        {"Polling" : "5 minutes", "time": 5},
+                        {"Polling" : "10 minutes", "time": 10},
+                        {"Polling" : "15 minutes", "time": 15},
+                        {"Polling" : "30 minutes", "time": 30}
+                    ]
+                }
+            },
+            {
+                "text" : {
+                    "return" : "gasPrice",
+                    "placeholder": "gasPrice"
+                }
+            }
+        ]
+    },
+    {
+        "name": "outlookNewEmail",
+        "servicename": "Microsoft",
+        "func": "./microsoft/checkemail.trigger",
+        "description": "get trigger when you receive an email",
+        "toSend": [
+            {
+                "dropdown" : {
+                    "name": "Polling Interval",
+                    "object": ["Polling", "time"],
+                    "render": "Polling",
+                    "return": "time",
+                    "choices": [
+                        {"Polling" : "3 minute", "time": 3},
+                        {"Polling" : "5 minutes", "time": 5},
+                        {"Polling" : "10 minutes", "time": 10},
+                        {"Polling" : "15 minutes", "time": 15},
+                        {"Polling" : "30 minutes", "time": 30}
+                    ]
+                }
+            }
+        ]
+    },
+    {
+        "name": "ethersUsePrice",
+        "servicename": "Etherscan",
+        "func": "./etherScan/etherusdprice.trigger",
+        "description": "get a trigger when eth price is at a certain amount",
+        "toSend": [
+            {
+                "dropdown" : {
+                    "name": "Comparative Operator",
+                    "object": ["Operator", "value"],
+                    "render": "Operator",
+                    "return": "value",
+                    "choices": [
+                        {"Operator" : ">", "value": ">"},
+                        {"Operator" : "<", "value": "<"},
+                        {"Operator" : "=", "value": "="}
+                    ]
+                }
+            },
+            {
+                "dropdown" : {
+                    "name": "Polling Interval",
+                    "object": ["Polling", "time"],
+                    "render": "Polling",
+                    "return": "time",
+                    "choices": [
+                        {"Polling" : "3 minute", "time": 3},
+                        {"Polling" : "5 minutes", "time": 5},
+                        {"Polling" : "10 minutes", "time": 10},
+                        {"Polling" : "15 minutes", "time": 15},
+                        {"Polling" : "30 minutes", "time": 30}
+                    ]
+                }
+            },
+            {
+                "text" : {
+                    "return" : "ethPrice",
+                    "placeholder": "etherPrice"
+                }
+            }
+        ]
+    },
+    {
+        "name": "NewCalendarEvent",
+        "servicename": "Google",
+        "func": "./google/newcalendarevent.trigger",
+        "description": "get a trigger when you have a new calendar event",
+        "toSend": [
+            {
+                "dropdown" : {
+                    "name": "Polling Interval",
+                    "object": ["Polling", "time"],
+                    "render": "Polling",
+                    "return": "time",
+                    "choices": [
+                        {"Polling" : "3 minute", "time": 3},
+                        {"Polling" : "5 minutes", "time": 5},
+                        {"Polling" : "10 minutes", "time": 10},
+                        {"Polling" : "15 minutes", "time": 15},
+                        {"Polling" : "30 minutes", "time": 30}
+                    ]
+                }
+            }
+        ]
+    }
+]

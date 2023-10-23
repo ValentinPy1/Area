@@ -1,0 +1,30 @@
+[
+    {
+        "name": "Discord",
+        "description": "Discord",
+        "logo" : "https://assets.ifttt.com/images/channels/179823445/icons/monochrome_large.png",
+        "color" : "#7289da",
+        "oauth2url" : "http://localhost:8080/oauth2/discordbot/redirect"
+    },
+    {
+        "name": "EtherScan",
+        "description": "EtherScan",
+        "logo" : "https://cdn-images-1.medium.com/max/176/1*MxpMgwpR-_fXBou_ftL4qg@2x.png",
+        "color" : "#6bb6e3",
+        "oauth2url" : ""
+    },
+    {
+        "name": "Microsoft",
+        "description": "Microsoft is a multinational tech company known for products like Windows OS, Microsoft Office, Azure cloud services, Xbox gaming consoles, and Surface PCs.",
+        "logo" : "https://upload.wikimedia.org/wikipedia/commons/thumb/4/44/Microsoft_logo.svg/1200px-Microsoft_logo.svg.png",
+        "color" : "#00a1f1",
+        "oauth2url" : "http://localhost:8080/oauth2/microsoft/redirect"
+    },
+    {
+        "name": "Google",
+        "description": "Google",
+        "logo" : "https://ragsdalemartin.com/wp-content/uploads/2020/07/white-google-logo.png",
+        "color" : "#febd00",
+        "oauth2url" : "http://localhost:8080/oauth2/google/redirect"
+    }
+]
