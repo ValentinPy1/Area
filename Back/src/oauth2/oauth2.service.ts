@@ -1,6 +1,6 @@
 import { Injectable, BadRequestException } from '@nestjs/common';
 import {Response, Request} from 'express';
-import { PrismaService } from 'prisma/prisma.service';
+import { PrismaService } from '../../prisma/prisma.service';
 import * as msal from '@azure/msal-node';
 import { AuthorizationCode } from 'simple-oauth2';
 
@@ -10,7 +10,7 @@ export class Oauth2Service {
     private clientSecret
     private tenantId
     private scope = 'openid profile offline_access User.Read Mail.Send Mail.Read'
-    private googleScope = ['https://www.googleapis.com/auth/gmail.send', 'https://www.googleapis.com/auth/calendar'].join(' ')
+    private googleScope = ['https://www.googleapis.com/auth/gmail.send', 'https://www.googleapis.com/auth/calendar', 'https://www.googleapis.com/auth/drive'].join(' ')
 
     constructor(private prisma: PrismaService) {
         this.clientId = process.env.MICROSOFT_CLIENT_ID;
@@ -46,14 +46,14 @@ export class Oauth2Service {
                         serviceName : 'Discord',
                         data : {
                             accessToken : accessToken,
-                            guildId : [{name : guildName, guildId : guild_id}],
+                            guildId : [{render : guildName, return : guild_id}],
                             code : code
                         }
                     }
                 })
             } else {
                 for (const obj of existe.data['guildId']) {
-                    if (obj.name === guildName)
+                    if (obj.render === guildName)
                         return res.status(200).send('Authentication successful! Please return to the bot.');
                 }
             
@@ -61,7 +61,7 @@ export class Oauth2Service {
                     data : {
                         data : {
                             accessToken : accessToken,
-                            guildId : [{name : guildName, guildId : guild_id}, ...existe.data['guildId'] ],
+                            guildId : [{render : guildName, return : guild_id}, ...existe.data['guildId'] ],
                             code : code
                         }
                     }
@@ -84,13 +84,13 @@ export class Oauth2Service {
         res.redirect(discordOAuthUrl);
     }
 
-    async microsoftCallback(code : string, res : Response, req : Request, userId : string) {
+    async microsoftCallback(code : string, res : Response, req : Request, userId : string, redirectUri : string) {
         const tokenUrl = `https://login.microsoftonline.com/${this.tenantId}/oauth2/v2.0/token`
         const token_data = {
             'client_id': this.clientId,
             'client_secret': this.clientSecret,
             'code': code,
-            'redirect_uri': "http://localhost:8080/oauth2/microsoft/callback",
+            'redirect_uri': redirectUri,
             'grant_type': 'authorization_code'
         }
         const response = await fetch(tokenUrl, {
@@ -106,7 +106,7 @@ export class Oauth2Service {
             const expiresIn = responseData['expires_in']
             const currentTimestamp = Date.now();
             const expirationTimestamp = currentTimestamp + expiresIn * 1000;
-            const expirationDate = new Date(expirationTimestamp);
+            const expirationDate = new Date(expirationTimestamp).getTime();
 
             const access_token = responseData['access_token']
             const refresh_token = responseData['refresh_token']
@@ -127,18 +127,19 @@ export class Oauth2Service {
                 })
             }
             res.send("Connected to Microsoft!")
+            return access_token
         } catch (error) {
             res.status(500).send(error.message)
         }
     }
 
-    async microsoftRedirect(res : Response, req : Request) {
+    async microsoftRedirect(res : Response, req : Request, redirectUri : string) {
         const userId = req.user['id']
         const authUrl = `https://login.microsoftonline.com/${this.tenantId}/oauth2/v2.0/authorize`
         const params = {
             client_id: this.clientId,
             response_type: 'code',
-            redirect_uri: "http://localhost:8080/oauth2/microsoft/callback",
+            redirect_uri: redirectUri,
             scope: this.scope,
             state: userId
         };
@@ -164,28 +165,38 @@ export class Oauth2Service {
     async googleCallback(code : string, res : Response, req : Request, userId : string) {
         const tokenParams = {
             code: req.query.code as string,
-            redirect_uri: "http://localhost:8080/oauth2/google/callback",
+            redirect_uri: process.env.GOOGLE_CALLBACK_URL,
             scope: this.googleScope
         }
         
         try {
             const result = await this.oauth2.getToken(tokenParams);
+            console.log('The resulting token: ', result.token);
             const access_token = result.token.access_token;
             const refresh_token = result.token.refresh_token;
+            const expirationDate = new Date(result.token.expires_at).getTime();
+
+            console.log("--------------------")
+            console.log(access_token)
+            console.log(refresh_token)
+            console.log(expirationDate)
+            console.log("--------------------")
 
             const existe = await this.prisma.oauth2Data.findFirst({where : {serviceName : 'Google', userId : userId}})
             if (!existe) {
+                console.log("create")
                 await this.prisma.oauth2Data.create({
                     data : {
                         userId : userId,
                         serviceName : 'Google',
-                        data : {accessToken : access_token, refreshToken : refresh_token}
+                        data : {accessToken : access_token, refreshToken : refresh_token, expirationDate : expirationDate}
                     }
                 })
             } else {
+                console.log("update: "+ userId + " - " + existe.id)
                 await this.prisma.oauth2Data.update({where : {id : existe.id},
                     data : {
-                        data : {accessToken : access_token, refreshToken : refresh_token}
+                        data : {accessToken : access_token, refreshToken : refresh_token, expirationDate : expirationDate}
                     }
                 })
             }
@@ -199,7 +210,7 @@ export class Oauth2Service {
 
     async googleRedirect(res : Response, req : Request) {
         const authorizationUri = this.oauth2.authorizeURL({
-            redirect_uri: "http://localhost:8080/oauth2/google/callback",
+            redirect_uri: process.env.GOOGLE_CALLBACK_URL,
             scope: this.googleScope,
             state : req.user['id'],
             access_type: 'offline'

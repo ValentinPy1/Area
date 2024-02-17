@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useBearerFetch } from '@/Utils/bearerFetch';
-import { useRouter } from 'next/router';  // Import useRouter
+import { useRouter } from 'next/router';
 import SearchBar from '@/components/SearchBar';
 import hoverColor from '@/Utils/hoverColor';
 
@@ -18,13 +18,13 @@ type ServicesGridProps = {
 
 const ServicesGrid: React.FC<ServicesGridProps> = ({ onServiceClick }) => {
     const [services, setServices] = useState<Service[]>([]);
-    const myFetch = useBearerFetch();
-    const router = useRouter();  // Instantiate router
+    const bearerFetch = useBearerFetch();
+    const router = useRouter();
 
     useEffect(() => {
-        const apiUrl = 'http://localhost:8080/actrig/getservices';
+        const apiUrl = '/actrig/getservices';
 
-        myFetch(apiUrl)
+        bearerFetch(apiUrl)
             .then((response) => response.json())
             .then((data: Service[]) => {
                 setServices(data);
@@ -38,12 +38,11 @@ const ServicesGrid: React.FC<ServicesGridProps> = ({ onServiceClick }) => {
         if (onServiceClick) {
             onServiceClick(service);
         } else {
-            // Default behavior
             const href = {
                 pathname: `/service/${service.name}`,
                 query: { service: JSON.stringify(service) },
             };
-            router.push(href);  // Use router.push to navigate
+            router.push(href);
         }
     };
 

@@ -30,7 +30,7 @@ export class MicrosoftUtils {
             const expiresIn = data['expires_in']
             const currentTimestamp = Date.now();
             const expirationTimestamp = currentTimestamp + expiresIn * 1000;
-            newExpirationDate = new Date(expirationTimestamp);
+            newExpirationDate = new Date(expirationTimestamp).getTime();
 
             const existe = await this.prisma.oauth2Data.findFirst({where : {serviceName : 'Microsoft', userId : userId}})
             await this.prisma.oauth2Data.update({where : {id : existe.id},
@@ -38,7 +38,7 @@ export class MicrosoftUtils {
                     data : {accessToken : newAccessToken, refreshToken : refreshToken, expirationDate : newExpirationDate}
                 }
             })
-        
+
         } catch (e) {
             console.log(e)
             return []

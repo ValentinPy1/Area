@@ -1,3 +1,5 @@
+import React from 'react';
+
 type TextInputProps = {
     return: string;
     placeholder: string;
@@ -12,6 +14,7 @@ const TextInput: React.FC<TextInputProps> = ({ return: returnKey, placeholder, u
 
     return (
         <input
+            className="p-2 my-2 rounded-lg shadow-inner"
             type="text"
             placeholder={placeholder}
             onChange={handleChange}

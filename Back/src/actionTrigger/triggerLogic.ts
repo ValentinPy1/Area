@@ -22,6 +22,8 @@ export class TriggerLogic {
             }
             const trigger = await this.prisma.triggersAvailable.findUnique({ where: { id: task['triggerId'] } });
             if (trigger) {
+                if (trigger['availability'] == false)
+                    continue
                 const TaskTrigger = require(trigger.func).default;
                 if (TaskTrigger) {
                     triggerList[task['id']] = new TaskTrigger(task['triggerData'], task['userId'], this.prisma, this.triggeractionserv);
@@ -44,6 +46,8 @@ export class TriggerLogic {
                     if (task) {
                         const Action = await this.prisma.actionsAvailable.findUnique({ where: { id: task['actionId'] } });
                         if (Action) {
+                            if (Action['availability'] == false)
+                                continue
                             const TaskAction = require(Action['func']).default;
                             const doaction = new TaskAction(this.prisma);
                             if (task['actionData']['body'] != null && task['actionData']['body'].includes("{result}")) {

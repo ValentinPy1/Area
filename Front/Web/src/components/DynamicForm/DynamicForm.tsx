@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import DropdownInput from './Dropdown';
 import TextInput from './TextInput';
+import DateInput from './DateInput';
+import TimeInput from './TimeInput';
 import { Input } from '@/Utils/types';
 
 type FormProps = {
@@ -43,8 +45,22 @@ const DynamicForm: React.FC<FormProps> = ({ inputJson = [], setData }) => {
                             updateData={updateData}
                         />
                     );
-                } else {
-                    return null;
+                } else if (input.date) {
+                    return (
+                        <DateInput
+                            key={index}
+                            {...input.date}
+                            updateData={updateData}
+                        />
+                    );
+                } else if (input.time) {
+                    return (
+                        <TimeInput
+                            key={index}
+                            {...input.time}
+                            updateData={updateData}
+                        />
+                    );
                 }
             })}
         </form>

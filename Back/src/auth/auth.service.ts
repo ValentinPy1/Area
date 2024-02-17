@@ -1,5 +1,5 @@
 import { BadRequestException, ForbiddenException, Injectable } from '@nestjs/common';
-import { PrismaService } from 'prisma/prisma.service';
+import { PrismaService } from '../../prisma/prisma.service';
 import { AuthDto, LoginDto } from './dto/auth.dto';
 import * as bcrypt from 'bcrypt'
 import { JwtService } from '@nestjs/jwt';
@@ -38,14 +38,46 @@ export class AuthService {
         // return {Bearer: bearer}
     }
 
-    async login(dto: LoginDto, req: Request, res: Response) {
+    async login(dto: LoginDto, res: Response) {
         const {email, password} = dto
 
         const foundUser = await this.prisma.users.findUnique({where : {email}})
         if (!foundUser) {
             throw new BadRequestException("Wrong creditential!")
         }
+        const isBan = await this.prisma.banUsers.findUnique({where : {banEmail : email}})
+        if (isBan) {
+            throw new BadRequestException("You are banned!")
+        }
+        const isMatch = await this.comparePassword(password, foundUser.password)
+        if (!isMatch) {
+            throw new BadRequestException("Wrong creditential!")
+        }
 
+        const bearer = await this.jwtToken(email, foundUser.id)
+        if (!bearer) {
+            throw new ForbiddenException
+        }
+
+        res.cookie('authorization', "Bearer " + bearer, {httpOnly: true, sameSite: 'strict', secure: true})
+
+        res.send({Bearer: bearer}).status(200)
+    }
+
+    async loginAdmin(dto: LoginDto, res: Response) {
+        const {email, password} = dto
+
+        const foundUser = await this.prisma.users.findUnique({where : {email}})
+        if (!foundUser) {
+            throw new BadRequestException("Wrong creditential!")
+        }
+        if (foundUser.authority != "admin") {
+            throw new BadRequestException("Not admin!")
+        }
+        const isBan = await this.prisma.banUsers.findUnique({where : {banEmail : email}})
+        if (isBan) {
+            throw new BadRequestException("You are banned!")
+        }
         const isMatch = await this.comparePassword(password, foundUser.password)
         if (!isMatch) {
             throw new BadRequestException("Wrong creditential!")

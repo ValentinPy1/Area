@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { channel } from 'diagnostics_channel';
-import { Client, IntentsBitField, TextChannel } from 'discord.js';
+import { Client, IntentsBitField, TextChannel, Message } from 'discord.js';
 
 @Injectable()
 export class DiscordBot {

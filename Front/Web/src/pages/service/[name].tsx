@@ -12,8 +12,8 @@ const ServiceDetail = () => {
     useEffect(() => {
         if (router.query.service) {
             const service = JSON.parse(router.query.service as string);
-            const triggersEndpoint = `http://localhost:8080/actrig/gettriggers/${service.name}`;
-            const actionsEndpoint = `http://localhost:8080/actrig/getactions/${service.name}`;
+            const triggersEndpoint = `/actrig/gettriggers/${service.name}`;
+            const actionsEndpoint = `/actrig/getactions/${service.name}`;
 
             bearerFetch(triggersEndpoint)
                 .then(res => res.json())
@@ -37,15 +37,20 @@ const ServiceDetail = () => {
             <div className='h-screen'>
                 <Navbar />
                 <div className='flex flex-col justify-center items-center h-3/4' style={{ backgroundColor: service.color }}>
-                    <div className="h-20 w-20">
-                        <img src={service.logo} alt={`${service.name} logo`} className="mx-auto" />
+                    <div className='flex flex-col justify-center items-center h-3/4'>
+                        <div className="h-20 w-20">
+                            <img src={service.logo} alt={`${service.name} logo`} className="mx-auto" />
+                        </div>
+                        <h1 className="text-white font-bold text-7xl mt-5">{service?.name}</h1>
+                        <p className="text-white mt-4 text-xl text-center break-normal w-1/4">{service?.description}</p>
                     </div>
-                    <h1 className="text-white font-bold text-7xl mt-5">{service?.name}</h1>
-                    <p className="text-white mt-4 text-xl text-center break-normal w-1/4">{service?.description}</p>
-
+                    <button className="bg-white text-black rounded-full px-4 py-2 hover:bg-neutral-100 transition-colors duration-300 ease-in-out"
+                        onClick={() => window.open(service.oauth2url, '_blank')}>
+                        Connect
+                    </button>
                 </div>
             </div>
-            <div className='w-full bg-white p-4 text-center flex justify-evenly'>
+            <div className='w-full bg-white pb-40 text-center flex justify-evenly'>
                 <section className='w-1/4'>
                     <h2 className="text-3xl font-bold mb-4 text-gray-800">Triggers</h2>
                     {triggers.map(trigger => (

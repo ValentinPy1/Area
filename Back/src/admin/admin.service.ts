@@ -1,5 +1,5 @@
 import { Injectable, BadRequestException } from '@nestjs/common';
-import { PrismaService } from 'prisma/prisma.service';
+import { PrismaService } from '../../prisma/prisma.service';
 import { JwtService } from '@nestjs/jwt';
 
 @Injectable()
@@ -42,7 +42,7 @@ export class AdminService {
         if (!foundUser) {
             throw new BadRequestException("email doesnt exists")
         }
-        await this.prisma.users.delete({ where: { email } })
+        // await this.prisma.users.delete({ where: { email } })
         await this.prisma.banUsers.create({data : {banEmail : email}})
         return {'message' : 'user banned'}
     }

@@ -1,5 +1,5 @@
 import { Injectable, BadRequestException } from '@nestjs/common';
-import { PrismaService } from 'prisma/prisma.service';
+import { PrismaService } from '../../prisma/prisma.service';
 import { Response } from 'express';
 
 @Injectable()
@@ -37,7 +37,7 @@ export class TaskService {
         return {'taskId deleted' : id}
     }
 
-    async getTasksUser(userid, req) {
+    async getTasksUser(userid, req) : Promise<any> {
         const e = await this.prisma.tasks.findMany({where : {userId : userid}})
         if (!e) {
             throw new BadRequestException("tasks dont existe")

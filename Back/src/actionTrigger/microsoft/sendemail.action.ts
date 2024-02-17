@@ -18,7 +18,7 @@ export default class MicrosoftSendEmail implements Action {
         accessToken = oauth2dt['data']['accessToken']
         refresh_token = oauth2dt['data']['refreshToken']
         expirationDate = oauth2dt['data']['expirationDate']
-
+      
         if (Date.now() >= expirationDate) {
           console.log('Micorsof Token expired')
           const newData = await this.utils.getNewAccessToken(refresh_token , userId)
@@ -44,15 +44,16 @@ export default class MicrosoftSendEmail implements Action {
               ],
             },
         }
-
-    const url = 'https://graph.microsoft.com/v1.0/me/sendMail';
-    const response = await fetch(url, {
-      method: 'POST',
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(emailData),
-    })
+    try {
+      const url = 'https://graph.microsoft.com/v1.0/me/sendMail';
+      const response = await fetch(url, {
+        method: 'POST',
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(emailData),
+      })
+    } catch (e) {console.log("error in microsoft sendemail")}
   }
 }

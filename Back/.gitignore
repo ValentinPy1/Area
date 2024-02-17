@@ -12,3 +12,7 @@ node_modules/
 .idea/
 *.iml
 .env
+
+# Coverage
+coverage/
+.nyc_output/

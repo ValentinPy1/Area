@@ -32,6 +32,7 @@ type Service = {
     color: string;
     description: string;
     items?: string[];
+    oauth2url?: string;
 };
 
 export type { Dropdown, TextInput, Input, ObjectStructure, Service };

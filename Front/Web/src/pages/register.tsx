@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useRouter } from 'next/router'
 import Link from 'next/link';
+import { useCookies } from 'react-cookie';
 
 const Register: React.FC = () => {
     const router = useRouter();
@@ -8,6 +9,7 @@ const Register: React.FC = () => {
     const [username, setUsername] = useState<string>('');
     const [password, setPassword] = useState<string>('');
     const [confirmPassword, setConfirmPassword] = useState<string>('');
+    const [cookies, setCookie] = useCookies(['authorization']);
 
     const handleRegister = async () => {
         if (password !== confirmPassword) {
@@ -19,8 +21,9 @@ const Register: React.FC = () => {
             username,
             password,
         };
+        const apiUrl = `${process.env.NEXT_PUBLIC_API_BASE_URL}/auth/register`;
         try {
-            const response = await fetch('http://localhost:8080/auth/register', {
+            const response = await fetch(apiUrl, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -29,8 +32,11 @@ const Register: React.FC = () => {
             });
 
             if (response.ok) {
-                alert("Registration successful!");
-                router.push('/services');
+                const data = await response.json();
+                if (data && data.Bearer) {
+                    setCookie('authorization', 'Bearer ' + data.Bearer, { path: '/' });
+                }
+                router.push('/dashboard/services');
             } else {
                 const errorData = await response.json();
                 alert(errorData.message || "Registration failed!");

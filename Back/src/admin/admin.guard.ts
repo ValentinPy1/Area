@@ -1,6 +1,6 @@
 import { CanActivate, ExecutionContext, Injectable, Req, BadRequestException, ForbiddenException } from '@nestjs/common';
 import { Observable } from 'rxjs';
-import { PrismaService } from 'prisma/prisma.service';
+import { PrismaService } from '../../prisma/prisma.service';
 import { Request } from 'express';
 import { request } from 'http';
 

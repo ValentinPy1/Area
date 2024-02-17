@@ -10,9 +10,8 @@ const Login: React.FC = () => {
     const [password, setPassword] = useState<string>('');
     const [cookies, setCookie] = useCookies(['authorization']);
 
-
     const handleLogin = async () => {
-        const apiUrl = 'http://localhost:8080/auth/login';
+        const apiUrl = `${process.env.NEXT_PUBLIC_API_BASE_URL}/auth/login`;
         const response = await fetch(apiUrl, {
             method: 'POST',
             headers: {

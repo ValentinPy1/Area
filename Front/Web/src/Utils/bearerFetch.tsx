@@ -9,7 +9,10 @@ export const useBearerFetch = () => {
             Authorization: `${cookies.authorization}`,
         };
 
-        return fetch(url, {
+        const apiUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
+        const fullUrl = `${apiUrl}${url}`;
+
+        return fetch(fullUrl, {
             ...options,
             headers: {
                 ...defaultHeaders,

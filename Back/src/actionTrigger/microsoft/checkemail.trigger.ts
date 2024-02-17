@@ -30,36 +30,40 @@ export default class CheckEmail implements Trigger {
         const formattedDate = `${year}-${month}-${day}`
 
         while (true) {
-            if (Date.now() >= expirationDate) {
-                console.log('Micorsof Token expired')
-                const newData = await this.utils.getNewAccessToken(refresh_token , userId)
-                accessToken = newData[0]
-                refresh_token = newData[1]
-                expirationDate = newData[2]
-            }
-            const url = `https://graph.microsoft.com/v1.0/me/messages?$filter=isRead eq false and receivedDateTime ge ${formattedDate}T00:00:00Z and receivedDateTime lt ${formattedDate}T23:59:59Z`
-            const req = await fetch(url, {
-                method: 'GET',
-                headers: {
-                    Authorization: `Bearer ${accessToken}`,
+            try {
+                if (Date.now() >= expirationDate) {
+                    console.log('Micorsof Token expired')
+                    const newData = await this.utils.getNewAccessToken(refresh_token , userId)
+                    accessToken = newData[0]
+                    refresh_token = newData[1]
+                    expirationDate = newData[2]
                 }
-            })
-            const r = await req.json()
-            const emails = r['value']
-            if (req.status === 200 && emails != null) {
-                for (let i = 0; i < emails.length; i++) {
-                    const email = emails[i]
-                    if (this.map.has(email['id']))
-                        continue
-                    this.map.set(email['id'], email['body']['content'])
-                    this.result[0] = this.result[0] + `-${i}- ` + email['subject'] + " From '" + email['sender']['emailAddress']['address'] +"'\n"
+                const url = `https://graph.microsoft.com/v1.0/me/messages?$filter=isRead eq false and receivedDateTime ge ${formattedDate}T00:00:00Z and receivedDateTime lt ${formattedDate}T23:59:59Z`
+                const req = await fetch(url, {
+                    method: 'GET',
+                    headers: {
+                        Authorization: `Bearer ${accessToken}`,
+                    }
+                })
+                const r = await req.json()
+                const emails = r['value']
+                if (req.status === 200 && emails != null) {
+                    for (let i = 0; i < emails.length; i++) {
+                        const email = emails[i]
+                        if (this.map.has(email['id']))
+                            continue
+                        this.map.set(email['id'], email['body']['content'])
+                        this.result[0] = this.result[0] + `-${i}- ` + email['subject'] + " From '" + email['sender']['emailAddress']['address'] +"'\n"
+                    }
                 }
-            }
+            } catch (e) {console.log("error in microsoft checkemail")}
             await sleep(data['time'] * 10000)
         }
     }
 
     public async isTrigger(): Promise<any[]> {
+        if (this.result[0] == "\n")
+            return []
         return this.result
     }
 

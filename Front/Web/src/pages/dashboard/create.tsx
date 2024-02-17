@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import Navbar from '@/components/Navbar';
-import { useBearerFetch } from '@/Utils/bearerFetch';
 import PartBox from '@/components/PartBox';
 import ServicesGrid from '@/components/ServicesGrid';
 import ItemSelection from '@/components/Creation/ItemSelection';
 import DynamicForm from '@/components/DynamicForm/DynamicForm';
+import AreaNamePopup from '@/components/Creation/AreaNamePopup';
+import { useBearerFetch } from '@/Utils/bearerFetch';
 import { Service } from '@/Utils/types';
 
 export default function Create() {
@@ -14,10 +15,11 @@ export default function Create() {
     const [showServices, setShowServices] = useState(false);
     const [triggerData, setTriggerData] = useState<string>('');
     const [actionData, setActionData] = useState<string>('');
-    const myFetch = useBearerFetch();
+    const bearerFetch = useBearerFetch();
     const [selecting, setSelecting] = useState<'triggers' | 'actions' | null>(null);
     const [selectedItem, setSelectedItem] = useState<any | null>(null);
     const [areaName, setAreaName] = useState<string>('');
+    const [showPopup, setShowPopup] = useState(false);
 
     const handleItemSelect = (item: any) => {
         setSelectedItem(item);
@@ -39,8 +41,16 @@ export default function Create() {
             alert("Please select both a trigger and an action before generating an Area.");
             return;
         }
+        setShowPopup(true);
+    };
 
-        const apiUrl = 'http://localhost:8080/task/new';
+    const handleAreaGeneration = () => {
+        if (!areaName) {
+            alert("Please provide an area name.");
+            return;
+        }
+
+        const apiUrl = '/task/new';
         const payload = {
             name: areaName,
             triggerid: selectedTrigger.id,
@@ -49,19 +59,21 @@ export default function Create() {
             actiondata: actionData
         };
 
-        myFetch(apiUrl, {
+        bearerFetch(apiUrl, {
             method: 'POST',
             body: JSON.stringify(payload)
         })
             .then(response => response.json())
             .then(data => {
                 alert("Area generated successfully!");
+                setShowPopup(false);  // Hide the popup upon successful area generation
             })
             .catch(error => {
                 console.error("Error generating area:", error);
                 alert("Error generating area. Please try again.");
             });
     };
+
 
     return (
         <div className="bg-white h-screen">
@@ -70,9 +82,9 @@ export default function Create() {
                 <div className='flex flex-col items-center h-screen'>
                     <button
                         onClick={handleReturn}
-                        className="ml-10 mt-10 bg-red-500 text-white px-4 py-2 rounded hover:bg-red-700 transition duration-300 self-start"
+                        className="ml-10 mt-10 bg-neutral-500 text-white px-6 py-3 rounded-full hover:bg-neutral-600 transition duration-300 self-start font-bold text-xl"
                     >
-                        Return
+                        Close
                     </button>
                     <div className="flex flex-row items-center h-full justify-around">
                         <ServicesGrid onServiceClick={handleServiceClick} />
@@ -109,14 +121,16 @@ export default function Create() {
                 // Otherwise, render the main content
                 <div className="flex flex-row items-center justify-center mt-20">
                     <div className="flex flex-col items-center justify-center">
-                        <input
-                            type="text"
-                            className="border-2 border-gray-300 rounded-lg px-4 py-2 w-3/4 mb-10 text-center text-black"
-                            placeholder="Area Name"
-                            onChange={(e) => setAreaName(e.target.value)}
-                        />
+                        {showPopup && (
+                            <AreaNamePopup
+                                onConfirm={handleAreaGeneration}
+                                onCancel={() => setShowPopup(false)}
+                                areaName={areaName}
+                                setAreaName={setAreaName}
+                            />
+                        )}
                         <PartBox
-                            color="bg-blue-500"
+                            color="bg-neutral-800"
                             title="If"
                             selectedPart={selectedTrigger}
                             placeHolder="Trigger"
@@ -128,7 +142,7 @@ export default function Create() {
                         />
                         <div className="border-l-4 border-gray-300 h-12 mx-auto"></div>
                         <PartBox
-                            color="bg-green-500"
+                            color="bg-neutral-400"
                             title="Then"
                             selectedPart={selectedAction}
                             placeHolder="Action"
@@ -138,17 +152,13 @@ export default function Create() {
                             }}
                             onInputChange={setActionData}
                         />
+                        <button
+                            onClick={generateArea}
+                            className="bg-neutral-700 text-white px-6 py-2 rounded-full hover:bg-blue-500 transition duration-300 mt-10"
+                        >
+                            Generate Area
+                        </button>
                     </div>
-                </div>
-            )}
-            {!showServices && (
-                <div className="mt-8 flex justify-center">
-                    <button
-                        onClick={generateArea}
-                        className="bg-neutral-700 text-white px-6 py-2 rounded-full hover:bg-blue-500 transition duration-300"
-                    >
-                        Generate Area
-                    </button>
                 </div>
             )}
         </div>

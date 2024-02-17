@@ -36,7 +36,7 @@ const ServiceSelection: React.FC<ServiceSelectionProps> = ({
 
     useEffect(() => {
         if (selectedService) {
-            bearerFetch(`http://localhost:8080/actrig/get${partType}s/${selectedService.name}`)
+            bearerFetch(`/actrig/get${partType}s/${selectedService.name}`)
                 .then(res => res.json())
                 .then(data => {
                     setParts(data);

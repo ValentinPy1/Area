@@ -8,13 +8,31 @@ import { Request } from 'express';
 export class AppController {
     constructor(private readonly appService: AppService) {}
 
+    /**
+     * @openapi
+     * /ping:
+     *   get:
+     *     summary: Check if the server is alive.
+     *     responses:
+     *       '200':
+     *         description: Successful response with server information.
+     */
     @Get('ping')
     ping() {
         return 'pong'
     }
 
+    /**
+     * @openapi
+     * /about.json:
+     *   get:
+     *     summary: Get information about the server service, available actions, and triggers.
+     *     description: Retrieve detailed information about the server and its capabilities.
+     *     responses:
+     *       '200':
+     *         description: Successful response with server information.
+     */
     @Get('about.json')
-    @UseGuards(JwtAuthGuard)
     aboutJson(@Req() req) {
         return this.appService.aboutJson(req)
     }

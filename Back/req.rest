@@ -4,11 +4,9 @@ POST http://localhost:8080/auth/register HTTP/1.1
 content-type: application/json
 
 {
-    "email": "val@gmail.com",
-    "password": "test",
-    "username": "Valentin Py",
-    "firstname": "Valentin",
-    "lastname": "Py"
+    "email": "test@gmail.com",
+    "password": "test1",
+    "username": "test"
 }
 
 ### Login
@@ -17,66 +15,75 @@ POST http://localhost:8080/auth/login HTTP/1.1
 content-type: application/json
 
 {
-    "email": "val@gmail.com",
-    "password": "test2"
+    "email": "test@gmail.com",
+    "password": "test1"
+}
+
+### LoginAdmin
+
+POST http://localhost:8080/auth/adminlogin HTTP/1.1
+content-type: application/json
+
+{
+    "email": "henry@gmail.com",
+    "password": "test1"
 }
 
 ###Get Me
 GET http://localhost:8080/auth/me HTTP/1.1
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InZhbEBnbWFpbC5jb20iLCJpZCI6IjA4N2QzZGI4LWZkODctNGRkYS1hNGM4LWUwOWIyOTM2ZTQ4ZiIsImlhdCI6MTY5ODA1MzY4Mn0.NNMJ9dm_aCW7FWf2C6dnIZKc7C8aojBOH71sfsKKO7A
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImhlbnJAZ21haWwuY29tIiwiaWQiOiI2ODkxNWVkOC1hZDgwLTQ2ZWEtOTI5Mi01YTM0NjZmYWMwYzEiLCJpYXQiOjE2OTg3NTk2NjR9.m_bpZHzqRiecMiK8fXQJM_u9W0If-73DKr3p-LCVSW4
 
 
 ###Change pswd
 POST http://localhost:8080/auth/changepswd HTTP/1.1
 content-type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InZhbEBnbWFpbC5jb20iLCJpZCI6IjA4N2QzZGI4LWZkODctNGRkYS1hNGM4LWUwOWIyOTM2ZTQ4ZiIsImlhdCI6MTY5ODA1MzY4Mn0.NNMJ9dm_aCW7FWf2C6dnIZKc7C8aojBOH71sfsKKO7A
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImhlbnJAZ21haWwuY29tIiwiaWQiOiI2ODkxNWVkOC1hZDgwLTQ2ZWEtOTI5Mi01YTM0NjZmYWMwYzEiLCJpYXQiOjE2OTg3NTk2NjR9.m_bpZHzqRiecMiK8fXQJM_u9W0If-73DKr3p-LCVSW4
 
 {
-    "oldpassword": "test",
+    "oldpassword": "test1",
     "newpassword": "test2"
 }
 
 ### get About
 
 GET http://localhost:8080/about.json HTTP/1.1
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InZhbEBnbWFpbC5jb20iLCJpZCI6IjA4N2QzZGI4LWZkODctNGRkYS1hNGM4LWUwOWIyOTM2ZTQ4ZiIsImlhdCI6MTY5ODA1MzY4Mn0.NNMJ9dm_aCW7FWf2C6dnIZKc7C8aojBOH71sfsKKO7A
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImhlbnJAZ21haWwuY29tIiwiaWQiOiI2ODkxNWVkOC1hZDgwLTQ2ZWEtOTI5Mi01YTM0NjZmYWMwYzEiLCJpYXQiOjE2OTg3NTk2NjR9.m_bpZHzqRiecMiK8fXQJM_u9W0If-73DKr3p-LCVSW4
 
 ###Admin get all users
 
 GET http://localhost:8080/admin/users HTTP/1.1
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InZhbEBnbWFpbC5jb20iLCJpZCI6IjA4N2QzZGI4LWZkODctNGRkYS1hNGM4LWUwOWIyOTM2ZTQ4ZiIsImlhdCI6MTY5ODA1MzY4Mn0.NNMJ9dm_aCW7FWf2C6dnIZKc7C8aojBOH71sfsKKO7A
-
-###Admin get delete user
-PUT http://localhost:8080/admin/user/henry@gmail.com HTTP/1.1
-content-type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InZhbEBnbWFpbC5jb20iLCJpZCI6IjA4N2QzZGI4LWZkODctNGRkYS1hNGM4LWUwOWIyOTM2ZTQ4ZiIsImlhdCI6MTY5ODA1MzY4Mn0.NNMJ9dm_aCW7FWf2C6dnIZKc7C8aojBOH71sfsKKO7A
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImhlbnJAZ21haWwuY29tIiwiaWQiOiI2ODkxNWVkOC1hZDgwLTQ2ZWEtOTI5Mi01YTM0NjZmYWMwYzEiLCJpYXQiOjE2OTg3NTk2NjR9.m_bpZHzqRiecMiK8fXQJM_u9W0If-73DKr3p-LCVSW4
 
 ###Admin promote user
 PUT http://localhost:8080/admin/promote/henry@gmail.com
 content-type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InZhbEBnbWFpbC5jb20iLCJpZCI6IjA4N2QzZGI4LWZkODctNGRkYS1hNGM4LWUwOWIyOTM2ZTQ4ZiIsImlhdCI6MTY5ODA1MzY4Mn0.NNMJ9dm_aCW7FWf2C6dnIZKc7C8aojBOH71sfsKKO7A
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImhlbnJAZ21haWwuY29tIiwiaWQiOiI2ODkxNWVkOC1hZDgwLTQ2ZWEtOTI5Mi01YTM0NjZmYWMwYzEiLCJpYXQiOjE2OTg3NTk2NjR9.m_bpZHzqRiecMiK8fXQJM_u9W0If-73DKr3p-LCVSW4
 
 ###Admin demote user
-PUT http://localhost:8080/admin/demote/localhost:8080/admin/user/henry@gmail.com
+PUT http://localhost:8080/admin/demote/henry@gmail.com
 content-type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InZhbEBnbWFpbC5jb20iLCJpZCI6IjA4N2QzZGI4LWZkODctNGRkYS1hNGM4LWUwOWIyOTM2ZTQ4ZiIsImlhdCI6MTY5ODA1MzY4Mn0.NNMJ9dm_aCW7FWf2C6dnIZKc7C8aojBOH71sfsKKO7A
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImhlbnJAZ21haWwuY29tIiwiaWQiOiI2ODkxNWVkOC1hZDgwLTQ2ZWEtOTI5Mi01YTM0NjZmYWMwYzEiLCJpYXQiOjE2OTg3NTk2NjR9.m_bpZHzqRiecMiK8fXQJM_u9W0If-73DKr3p-LCVSW4
 
 ###Admin Ban user
-PUT http://localhost:8080/admin/ban/henry@gmail.com
+PUT http://localhost:8080/admin/ban/test@gmail.com
 content-type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InZhbEBnbWFpbC5jb20iLCJpZCI6IjA4N2QzZGI4LWZkODctNGRkYS1hNGM4LWUwOWIyOTM2ZTQ4ZiIsImlhdCI6MTY5ODA1MzY4Mn0.NNMJ9dm_aCW7FWf2C6dnIZKc7C8aojBOH71sfsKKO7A
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImhlbnJAZ21haWwuY29tIiwiaWQiOiI2ODkxNWVkOC1hZDgwLTQ2ZWEtOTI5Mi01YTM0NjZmYWMwYzEiLCJpYXQiOjE2OTg3NTk2NjR9.m_bpZHzqRiecMiK8fXQJM_u9W0If-73DKr3p-LCVSW4
+
+###Admin Unban user
+PUT http://localhost:8080/admin/unban/test@gmail.com
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImhlbnJAZ21haWwuY29tIiwiaWQiOiI2ODkxNWVkOC1hZDgwLTQ2ZWEtOTI5Mi01YTM0NjZmYWMwYzEiLCJpYXQiOjE2OTg3NTk2NjR9.m_bpZHzqRiecMiK8fXQJM_u9W0If-73DKr3p-LCVSW4
 
 ###Admin callback disc user
 GET  http://localhost:8080/discordbot/callback HTTP/1.1
 
 ###Get services
 GET http://localhost:8080/actrig/getservices HTTP/1.1
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InZhbEBnbWFpbC5jb20iLCJpZCI6IjA4N2QzZGI4LWZkODctNGRkYS1hNGM4LWUwOWIyOTM2ZTQ4ZiIsImlhdCI6MTY5ODA1MzY4Mn0.NNMJ9dm_aCW7FWf2C6dnIZKc7C8aojBOH71sfsKKO7A
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImhlbnJAZ21haWwuY29tIiwiaWQiOiI2ODkxNWVkOC1hZDgwLTQ2ZWEtOTI5Mi01YTM0NjZmYWMwYzEiLCJpYXQiOjE2OTg3NTk2NjR9.m_bpZHzqRiecMiK8fXQJM_u9W0If-73DKr3p-LCVSW4
 
 ###Create service
 POST http://localhost:8080/actrig/addservice HTTP/1.1
 content-type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InZhbEBnbWFpbC5jb20iLCJpZCI6IjA4N2QzZGI4LWZkODctNGRkYS1hNGM4LWUwOWIyOTM2ZTQ4ZiIsImlhdCI6MTY5ODA1MzY4Mn0.NNMJ9dm_aCW7FWf2C6dnIZKc7C8aojBOH71sfsKKO7A
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImhlbnJAZ21haWwuY29tIiwiaWQiOiI2ODkxNWVkOC1hZDgwLTQ2ZWEtOTI5Mi01YTM0NjZmYWMwYzEiLCJpYXQiOjE2OTg3NTk2NjR9.m_bpZHzqRiecMiK8fXQJM_u9W0If-73DKr3p-LCVSW4
 
 {
    "name": "Discord",
@@ -104,12 +111,12 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InZhbEBnb
 
 ###Get triggers
 GET http://localhost:8080/actrig/gettriggers HTTP/1.1
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InZhbEBnbWFpbC5jb20iLCJpZCI6IjA4N2QzZGI4LWZkODctNGRkYS1hNGM4LWUwOWIyOTM2ZTQ4ZiIsImlhdCI6MTY5ODA1MzY4Mn0.NNMJ9dm_aCW7FWf2C6dnIZKc7C8aojBOH71sfsKKO7A
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImhlbnJAZ21haWwuY29tIiwiaWQiOiI2ODkxNWVkOC1hZDgwLTQ2ZWEtOTI5Mi01YTM0NjZmYWMwYzEiLCJpYXQiOjE2OTg3NTk2NjR9.m_bpZHzqRiecMiK8fXQJM_u9W0If-73DKr3p-LCVSW4
 
 ###Create trigger
 POST http://localhost:8080/actrig/addtrigger HTTP/1.1
 content-type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InZhbEBnbWFpbC5jb20iLCJpZCI6IjA4N2QzZGI4LWZkODctNGRkYS1hNGM4LWUwOWIyOTM2ZTQ4ZiIsImlhdCI6MTY5ODA1MzY4Mn0.NNMJ9dm_aCW7FWf2C6dnIZKc7C8aojBOH71sfsKKO7A
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImhlbnJAZ21haWwuY29tIiwiaWQiOiI2ODkxNWVkOC1hZDgwLTQ2ZWEtOTI5Mi01YTM0NjZmYWMwYzEiLCJpYXQiOjE2OTg3NTk2NjR9.m_bpZHzqRiecMiK8fXQJM_u9W0If-73DKr3p-LCVSW4
 
 {
     "name": "discord pin msg",
@@ -132,55 +139,20 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InZhbEBnb
 
 ###Get actions
 GET http://localhost:8080/actrig/getactions HTTP/1.1
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InZhbEBnbWFpbC5jb20iLCJpZCI6IjA4N2QzZGI4LWZkODctNGRkYS1hNGM4LWUwOWIyOTM2ZTQ4ZiIsImlhdCI6MTY5ODA1MzY4Mn0.NNMJ9dm_aCW7FWf2C6dnIZKc7C8aojBOH71sfsKKO7A
-
-###Create action
-POST http://localhost:8080/actrig/addaction HTTP/1.1
-content-type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InZhbEBnbWFpbC5jb20iLCJpZCI6IjA4N2QzZGI4LWZkODctNGRkYS1hNGM4LWUwOWIyOTM2ZTQ4ZiIsImlhdCI6MTY5ODA1MzY4Mn0.NNMJ9dm_aCW7FWf2C6dnIZKc7C8aojBOH71sfsKKO7A
-
-{
-   "name": "discord send msg",
-    "servicename": "Discord",
-    "func": "./discord/sendmsg.action",
-    "description": "send a msg to a channel",
-    "toSend": [
-        {
-            "dropdown" : {
-                "name": "ServerName",
-                "object": ["name", "guildId"],
-                "render": "name",
-                "return": "guildId",
-                "choices": []
-            }
-        },
-        {
-            "text" : {
-                "return": "message",
-                "placeholder": "Message"
-            }
-        },
-        {
-            "text" : {
-                "return": "ChannelName",
-                "placeholder": "Channel Name"
-            }
-        }
-    ]
-}
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImhlbnJAZ21haWwuY29tIiwiaWQiOiI2ODkxNWVkOC1hZDgwLTQ2ZWEtOTI5Mi01YTM0NjZmYWMwYzEiLCJpYXQiOjE2OTg3NTk2NjR9.m_bpZHzqRiecMiK8fXQJM_u9W0If-73DKr3p-LCVSW4
 
 ###Get triggers of service
 GET http://localhost:8080/actrig/gettriggers/Discord HTTP/1.1
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InZhbEBnbWFpbC5jb20iLCJpZCI6IjA4N2QzZGI4LWZkODctNGRkYS1hNGM4LWUwOWIyOTM2ZTQ4ZiIsImlhdCI6MTY5ODA1MzY4Mn0.NNMJ9dm_aCW7FWf2C6dnIZKc7C8aojBOH71sfsKKO7A
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImhlbnJAZ21haWwuY29tIiwiaWQiOiI2ODkxNWVkOC1hZDgwLTQ2ZWEtOTI5Mi01YTM0NjZmYWMwYzEiLCJpYXQiOjE2OTg3NTk2NjR9.m_bpZHzqRiecMiK8fXQJM_u9W0If-73DKr3p-LCVSW4
 
 ###Get actions of service
 GET http://localhost:8080/actrig/getactions/Discord HTTP/1.1
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InZhbEBnbWFpbC5jb20iLCJpZCI6IjA4N2QzZGI4LWZkODctNGRkYS1hNGM4LWUwOWIyOTM2ZTQ4ZiIsImlhdCI6MTY5ODA1MzY4Mn0.NNMJ9dm_aCW7FWf2C6dnIZKc7C8aojBOH71sfsKKO7A
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImhlbnJAZ21haWwuY29tIiwiaWQiOiI2ODkxNWVkOC1hZDgwLTQ2ZWEtOTI5Mi01YTM0NjZmYWMwYzEiLCJpYXQiOjE2OTg3NTk2NjR9.m_bpZHzqRiecMiK8fXQJM_u9W0If-73DKr3p-LCVSW4
 
 ###Post creat task
 POST http://localhost:8080/task/new HTTP/1.1
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InZhbEBnbWFpbC5jb20iLCJpZCI6IjA4N2QzZGI4LWZkODctNGRkYS1hNGM4LWUwOWIyOTM2ZTQ4ZiIsImlhdCI6MTY5ODA1MzY4Mn0.NNMJ9dm_aCW7FWf2C6dnIZKc7C8aojBOH71sfsKKO7A
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImhlbnJAZ21haWwuY29tIiwiaWQiOiI2ODkxNWVkOC1hZDgwLTQ2ZWEtOTI5Mi01YTM0NjZmYWMwYzEiLCJpYXQiOjE2OTg3NTk2NjR9.m_bpZHzqRiecMiK8fXQJM_u9W0If-73DKr3p-LCVSW4
 
 {
    "name": "send email to jeremy",
@@ -192,8 +164,12 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InZhbEBnb
 
 ###Get all my tasks
 GET http://localhost:8080/task/mytasks HTTP/1.1
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InZhbEBnbWFpbC5jb20iLCJpZCI6IjA4N2QzZGI4LWZkODctNGRkYS1hNGM4LWUwOWIyOTM2ZTQ4ZiIsImlhdCI6MTY5ODA1MzY4Mn0.NNMJ9dm_aCW7FWf2C6dnIZKc7C8aojBOH71sfsKKO7A
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImhlbnJAZ21haWwuY29tIiwiaWQiOiI2ODkxNWVkOC1hZDgwLTQ2ZWEtOTI5Mi01YTM0NjZmYWMwYzEiLCJpYXQiOjE2OTg3NTk2NjR9.m_bpZHzqRiecMiK8fXQJM_u9W0If-73DKr3p-LCVSW4
 
 ###Delete task
-DELETE http://localhost:8080/task/delete/699bae18-7e07-4e6f-8f4c-3068a54a3965 HTTP/1.1
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InZhbEBnbWFpbC5jb20iLCJpZCI6IjA4N2QzZGI4LWZkODctNGRkYS1hNGM4LWUwOWIyOTM2ZTQ4ZiIsImlhdCI6MTY5ODA1MzY4Mn0.NNMJ9dm_aCW7FWf2C6dnIZKc7C8aojBOH71sfsKKO7A
+DELETE http://localhost:8080/task/delete/488f3371-e11d-4657-8a40-eaf4aaf77458 HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImhlbnJAZ21haWwuY29tIiwiaWQiOiI2ODkxNWVkOC1hZDgwLTQ2ZWEtOTI5Mi01YTM0NjZmYWMwYzEiLCJpYXQiOjE2OTg3NTk2NjR9.m_bpZHzqRiecMiK8fXQJM_u9W0If-73DKr3p-LCVSW4
+
+###Get services by trigger/action id
+GET http://localhost:8080/actrig/getservices/6ae2abe1-cc9e-42cc-a17b-77c6ba5bac80 HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImhlbnJAZ21haWwuY29tIiwiaWQiOiI2ODkxNWVkOC1hZDgwLTQ2ZWEtOTI5Mi01YTM0NjZmYWMwYzEiLCJpYXQiOjE2OTg3NTk2NjR9.m_bpZHzqRiecMiK8fXQJM_u9W0If-73DKr3p-LCVSW4

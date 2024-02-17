@@ -9,9 +9,16 @@ type ItemSelectionProps = {
     onItemSelect: (item: any) => void;
 };
 
+type DataItem = {
+    id: string;
+    name: string;
+    description: string;
+};
+
 const ItemSelection: React.FC<ItemSelectionProps> = ({ service, dataType, onItemSelect }) => {
     const bearerFetch = useBearerFetch();
     const [data, setData] = useState([]);
+    const [hoverIndex, setHoverIndex] = useState<number | null>(null);
 
     const handleConnect = (service: Service) => {
         if (service.oauth2url) {
@@ -21,7 +28,7 @@ const ItemSelection: React.FC<ItemSelectionProps> = ({ service, dataType, onItem
 
     useEffect(() => {
         setData([]);
-        const endpoint = `http://localhost:8080/actrig/get${dataType}/${service.name}`;
+        const endpoint = `/actrig/get${dataType}/${service.name}`;
 
         bearerFetch(endpoint)
             .then(res => res.json())
@@ -33,23 +40,17 @@ const ItemSelection: React.FC<ItemSelectionProps> = ({ service, dataType, onItem
         <div className='w-60 p-4 rounded-lg text-center justify-center items-center m-10'>
             <section className='mb-8 text-black'>
                 <h2 className="text-xl font-bold mb-4">{service.name} {dataType}</h2>
-                {data.map((item, index) => (
+                {data.map((item: DataItem, index) => (
                     <div
                         key={item.id}
-                        className="item p-4 bg-gray-100 rounded-lg shadow-inner cursor-pointer text-white"
+                        className="item p-4 bg-gray-100 rounded-lg shadow-inner cursor-pointer text-white my-2"
                         onClick={() => onItemSelect(item)}
                         style={{
-                            backgroundColor: service.color,
+                            backgroundColor: hoverIndex === index ? hoverColor(service.color) : service.color,
                             transition: 'background-color 0.3s ease',
                         }}
-                        onMouseEnter={() => {
-                            const items = document.getElementsByClassName('item');
-                            items[index].style.backgroundColor = hoverColor(service.color);
-                        }}
-                        onMouseLeave={() => {
-                            const items = document.getElementsByClassName('item');
-                            items[index].style.backgroundColor = service.color;
-                        }}
+                        onMouseEnter={() => setHoverIndex(index)}
+                        onMouseLeave={() => setHoverIndex(null)}
                     >
                         <p className="font-semibold text-xl">{item.name}</p>
                         <p className="">{item.description}</p>
@@ -64,4 +65,3 @@ const ItemSelection: React.FC<ItemSelectionProps> = ({ service, dataType, onItem
 };
 
 export default ItemSelection;
-
